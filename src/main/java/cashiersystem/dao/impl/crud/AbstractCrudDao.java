@@ -46,7 +46,7 @@ public abstract class AbstractCrudDao<E> implements CrudDao<E> {
     protected <P> Optional<E> findByParam(P param, String findByParam, BiConsumer<PreparedStatement, P> designatedParamSetter) {
         try (PreparedStatement preparedStatement = ConnectorDB.getConnection().prepareStatement(findByParam)) {
             designatedParamSetter.accept(preparedStatement, param);
-            try (ResultSet resultSet = preparedStatement.executeQuery(findByParam)) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return Optional.of(mapResultSetToEntity(resultSet));
                 }
