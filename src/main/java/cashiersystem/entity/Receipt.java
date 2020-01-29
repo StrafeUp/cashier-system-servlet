@@ -44,8 +44,8 @@ public class Receipt {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Receipt)) return false;
+        if (this == o) {return true;}
+        if (!(o instanceof Receipt)) {return false;}
         Receipt receipt = (Receipt) o;
         return id == receipt.id &&
                 userId == receipt.userId &&

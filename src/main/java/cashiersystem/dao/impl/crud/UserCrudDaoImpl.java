@@ -90,7 +90,6 @@ public class UserCrudDaoImpl extends AbstractCrudDao<User> implements UserCrudDa
                 .withRole(Roles.values()[(resultSet.getInt("role_id")) - 1]).build();
     }
 
-
     @Override
     public List<User> findAll() {
         try (final PreparedStatement preparedStatement =
@@ -103,7 +102,6 @@ public class UserCrudDaoImpl extends AbstractCrudDao<User> implements UserCrudDa
                 }
                 return users;
             }
-
         } catch (SQLException e) {
             LOGGER.error(String.format(LOGGER_ERROR, e));
             throw new DataBaseSqlRuntimeException("", e);
@@ -120,7 +118,7 @@ public class UserCrudDaoImpl extends AbstractCrudDao<User> implements UserCrudDa
             preparedStatement.setLong(5, entity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error(String.format(LOGGER_ERROR,e));
+            LOGGER.error(String.format(LOGGER_ERROR, e));
             throw new DataBaseSqlRuntimeException("", e);
         }
     }

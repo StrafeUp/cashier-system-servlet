@@ -20,7 +20,5 @@ public class LocaleBundle {
             default:
                 resource = ResourceBundle.getBundle("view");
         }
-
     }
-
 }

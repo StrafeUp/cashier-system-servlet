@@ -10,12 +10,10 @@ public class ConnectorDBTest {
 
     @Test
     public void shouldGetConnection() {
-
         try (Connection connection = ConnectorDB.getConnection()) {
             Assert.assertTrue(connection.isValid(1));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 }

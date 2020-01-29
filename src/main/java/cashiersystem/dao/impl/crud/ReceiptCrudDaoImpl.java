@@ -119,7 +119,6 @@ public class ReceiptCrudDaoImpl extends AbstractCrudDao<Receipt> implements Rece
             LOGGER.error(String.format(LOGGER_ERROR,e));
             throw new DataBaseSqlRuntimeException("", e);
         }
-
     }
 
     @Override

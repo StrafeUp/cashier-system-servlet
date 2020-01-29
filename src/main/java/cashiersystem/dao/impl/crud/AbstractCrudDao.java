@@ -15,6 +15,7 @@ import java.util.function.BiConsumer;
 public abstract class AbstractCrudDao<E> implements CrudDao<E> {
     protected static final String LOGGER_ERROR = "Can't execute query ['%s'];";
     private static final Logger LOGGER = LogManager.getLogger(AbstractCrudDao.class);
+
     protected static final BiConsumer<PreparedStatement, String> STRING_PARAM_SETTER = ((preparedStatement, string) -> {
         try {
             preparedStatement.setString(1, string);
@@ -57,7 +58,6 @@ public abstract class AbstractCrudDao<E> implements CrudDao<E> {
         }
         return Optional.empty();
     }
-
 
     public long count(String query) {
         try (final PreparedStatement preparedStatement = ConnectorDB.getConnection().prepareStatement(query)) {

@@ -3,11 +3,11 @@ package cashiersystem.entity;
 import java.util.Objects;
 
 public class User {
-    private long id;
-    private String username;
-    private String email;
-    private String password;
-    private Roles role;
+    private final long id;
+    private final String username;
+    private final String email;
+    private final String password;
+    private final Roles role;
 
     public User(Builder builder) {
         this.id = builder.id;
@@ -43,8 +43,12 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
         User user = (User) o;
         return id == user.id &&
                 Objects.equals(username, user.username) &&

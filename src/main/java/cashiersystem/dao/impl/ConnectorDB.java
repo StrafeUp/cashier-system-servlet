@@ -17,7 +17,6 @@ public class ConnectorDB {
     private static HikariDataSource dataSource;
 
     static {
-
         FileInputStream fis = null;
         Properties databaseProperties = new Properties();
 
