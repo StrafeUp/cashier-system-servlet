@@ -50,11 +50,12 @@ create table cashierSystem.users
 
 create table cashierSystem.receipts
 (
-    id        int auto_increment
+    id         int auto_increment
         primary key,
-    status_id int not null,
-    user_id   int null,
-    item_id   int not null,
+    receipt_id int not null,
+    status_id  int not null,
+    user_id    int null,
+    item_id    int not null,
     constraint receipts_items_id_fk
         foreign key (item_id) references items (id),
     constraint receipts_statuses_id_fk

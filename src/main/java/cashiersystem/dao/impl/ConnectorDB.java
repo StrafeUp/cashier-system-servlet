@@ -2,43 +2,31 @@ package cashiersystem.dao.impl;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Properties;
+import java.util.ResourceBundle;
 
 public class ConnectorDB {
-    private static final Logger LOGGER = LogManager.getLogger(ConnectorDB.class);
-    private static HikariConfig config = new HikariConfig();
-    private static HikariDataSource dataSource;
+    private HikariDataSource dataSource;
 
-    static {
-        FileInputStream fis = null;
-        Properties databaseProperties = new Properties();
-
-        try {
-            fis = new FileInputStream("src/main/resources/database.properties");
-            databaseProperties.load(fis);
-
-        } catch (IOException e) {
-            LOGGER.error(e);
-        }
-
-        config.setJdbcUrl(databaseProperties.getProperty("db.url"));
-        config.setUsername(databaseProperties.getProperty("db.user"));
-        config.setPassword(databaseProperties.getProperty("db.password"));
-
-        dataSource = new HikariDataSource(config);
+    public ConnectorDB(String filename) {
+        ResourceBundle resource = ResourceBundle.getBundle(filename);
+        HikariConfig config = new HikariConfig();
+        config.setDriverClassName(resource.getString("db.driver"));
+        config.setJdbcUrl(resource.getString("db.url"));
+        config.setUsername(resource.getString("db.user"));
+        config.setPassword(resource.getString("db.password"));
+        config.setMaximumPoolSize(Integer.parseInt(resource.getString("db.pool.size")));
+        config.setConnectionTimeout(Long.parseLong(resource.getString("db.timeout")));
+        this.dataSource = new HikariDataSource(config);
     }
 
-    private ConnectorDB() {
-    }
-
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         return dataSource.getConnection();
+    }
+
+    public void closeConnection() {
+        dataSource.close();
     }
 }

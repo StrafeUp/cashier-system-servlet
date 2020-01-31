@@ -28,7 +28,14 @@ INSERT INTO cashierSystem.statuses (id, Status) VALUES (1, 'OPEN');
 INSERT INTO cashierSystem.statuses (id, Status) VALUES (2, 'IN_DISPUTE');
 INSERT INTO cashierSystem.statuses (id, Status) VALUES (3, 'CLOSED');
 
-INSERT INTO cashierSystem.receipts (id, status_id, user_id, item_id) VALUES (1, 3, 1, 3);
-
 INSERT INTO cashierSystem.users (id, username, email, password, role_id) VALUES (1, 'Hello123', 'Hello@gmail.com', 'sagdhlsajb ', 2);
 INSERT INTO cashierSystem.users (id, username, email, password, role_id) VALUES (3, 'Hell12o123', 'Hello2@gmail.com', 'sagdhlsajb ', 2);
+
+INSERT INTO cashierSystem.receipts (id, receipt_id, status_id, user_id, item_id) VALUES (1, 1, 3, 1, 3);
+INSERT INTO cashierSystem.receipts (id, receipt_id, status_id, user_id, item_id) VALUES (2, 1, 3, 1, 2);
+INSERT INTO cashierSystem.receipts (id, receipt_id, status_id, user_id, item_id) VALUES (3, 1, 3, 1, 5);
+INSERT INTO cashierSystem.receipts (id, receipt_id, status_id, user_id, item_id) VALUES (4, 1, 3, 1, 10);
+INSERT INTO cashierSystem.receipts (id, receipt_id, status_id, user_id, item_id) VALUES (5, 2, 2, 3, 2);
+INSERT INTO cashierSystem.receipts (id, receipt_id, status_id, user_id, item_id) VALUES (6, 2, 2, 3, 15);
+INSERT INTO cashierSystem.receipts (id, receipt_id, status_id, user_id, item_id) VALUES (7, 3, 1, 1, 20);
+

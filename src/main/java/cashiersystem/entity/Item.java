@@ -3,7 +3,7 @@ package cashiersystem.entity;
 import java.util.Objects;
 
 public class Item {
-    private final long id;
+    private final Long id;
     private final String name;
     private final double weight;
     private final int quantity;
@@ -40,13 +40,13 @@ public class Item {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Item)) {
+        if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
         Item item = (Item) o;
-        return id == item.id &&
-                Double.compare(item.weight, weight) == 0 &&
+        return Double.compare(item.weight, weight) == 0 &&
                 quantity == item.quantity &&
+                Objects.equals(id, item.id) &&
                 Objects.equals(name, item.name);
     }
 
@@ -66,7 +66,7 @@ public class Item {
     }
 
     public static class Builder {
-        private long id;
+        private Long id;
         private String name;
         private double weight;
         private int quantity;
@@ -78,7 +78,7 @@ public class Item {
             return new Item(this);
         }
 
-        public Builder withId(long id) {
+        public Builder withId(Long id) {
             this.id = id;
             return this;
         }

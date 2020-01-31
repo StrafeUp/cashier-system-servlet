@@ -1,61 +1,75 @@
 package cashiersystem.entity;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 public class Receipt {
-    private final long id;
+    private final Long id;
+    private final Long receiptId;
     private final Status status;
-    private final long userId;
+    private final User user;
     private final List<Item> items;
 
     public Receipt(Builder builder) {
         this.id = builder.id;
+        this.receiptId = builder.receiptId;
         this.status = builder.status;
-        this.userId = builder.userId;
-        this.items = new ArrayList<>();
-    }
-
-
-    public long getId() {
-        return id;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public List<Item> getItems() {
-        return items;
-    }
-
-    private void addItem(Item item) {
-        items.add(item);
+        this.user = builder.user;
+        this.items = builder.items;
     }
 
     public static Builder builder() {
         return new Builder();
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public Long getReceiptId() {
+        return receiptId;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void addItem(Item item) {
+        items.add(item);
+    }
+
+    public void removeItem(Item item) {
+        items.remove(item);
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) {return true;}
-        if (!(o instanceof Receipt)) {return false;}
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
         Receipt receipt = (Receipt) o;
-        return id == receipt.id &&
-                userId == receipt.userId &&
+        return Objects.equals(id, receipt.id) &&
+                Objects.equals(receiptId, receipt.receiptId) &&
                 status == receipt.status &&
+                Objects.equals(user, receipt.user) &&
                 Objects.equals(items, receipt.items);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, status, userId, items);
+        return Objects.hash(id, receiptId, status, user, items);
     }
 
     @Override
@@ -63,15 +77,16 @@ public class Receipt {
         return "Receipt{" +
                 "id=" + id +
                 ", status=" + status +
-                ", userId=" + userId +
+                ", user=" + user +
                 ", items=" + items +
                 '}';
     }
 
     public static class Builder {
-        private long id;
+        private Long id;
+        private Long receiptId;
         private Status status;
-        private long userId;
+        private User user;
         private List<Item> items;
 
         private Builder() {
@@ -79,11 +94,18 @@ public class Receipt {
         }
 
         public Receipt build() {
+            if (items == null) {
+                items = Collections.emptyList();
+            }
             return new Receipt(this);
         }
 
-        public Builder withId(long id) {
+        public Builder withId(Long id) {
             this.id = id;
+            return this;
+        }
+        public Builder withReceiptId(Long receiptId){
+            this.receiptId = id;
             return this;
         }
 
@@ -92,8 +114,8 @@ public class Receipt {
             return this;
         }
 
-        public Builder withUserId(long userId) {
-            this.userId = userId;
+        public Builder withUser(User user) {
+            this.user = user;
             return this;
         }
 

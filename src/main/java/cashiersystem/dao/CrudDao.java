@@ -15,5 +15,5 @@ public interface CrudDao<E> {
 
     void deleteById(Integer id);
 
-    long count(String query);
+    long count();
 }

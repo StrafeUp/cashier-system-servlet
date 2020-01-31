@@ -3,11 +3,11 @@ package cashiersystem.entity;
 import java.util.Objects;
 
 public class User {
-    private final long id;
+    private final Long id;
     private final String username;
     private final String email;
     private final String password;
-    private final Roles role;
+    private final Role role;
 
     public User(Builder builder) {
         this.id = builder.id;
@@ -25,7 +25,7 @@ public class User {
         return username;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -37,7 +37,7 @@ public class User {
         return password;
     }
 
-    public Roles getRole() {
+    public Role getRole() {
         return role;
     }
 
@@ -46,11 +46,11 @@ public class User {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof User)) {
+        if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
         User user = (User) o;
-        return id == user.id &&
+        return Objects.equals(id, user.id) &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(password, user.password) &&
@@ -74,11 +74,11 @@ public class User {
     }
 
     public static class Builder {
-        private long id;
+        private Long id;
         private String username;
         private String email;
         private String password;
-        private Roles role;
+        private Role role;
 
         private Builder() {
         }
@@ -87,7 +87,7 @@ public class User {
             return new User(this);
         }
 
-        public Builder withId(long id) {
+        public Builder withId(Long id) {
             this.id = id;
             return this;
         }
@@ -107,7 +107,7 @@ public class User {
             return this;
         }
 
-        public Builder withRole(Roles role) {
+        public Builder withRole(Role role) {
             this.role = role;
             return this;
         }

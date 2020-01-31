@@ -1,17 +1,18 @@
 package cashiersystem.entity;
 
-public enum Status {
-    OPEN, CLOSED, IN_DISPUTE;
+public enum Role {
+    ADMIN, MERCHANDISER, MANAGER, CASHIER;
 
-    public static Status getStatusById(int id) {
+    public static Role getRoleById(int id) {
         switch (id) {
             case 1:
-                return OPEN;
+                return ADMIN;
             case 2:
-                return CLOSED;
+                return MERCHANDISER;
             case 3:
-                return IN_DISPUTE;
-
+                return MANAGER;
+            case 4:
+                return CASHIER;
             default:
                 throw new IllegalArgumentException("Can't get role for id: " + id);
         }
