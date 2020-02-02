@@ -3,10 +3,14 @@ package cashiersystem.dao.impl.crud;
 import cashiersystem.dao.domain.Page;
 import cashiersystem.dao.impl.ConnectorDB;
 import cashiersystem.entity.Item;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -16,20 +20,37 @@ import static org.junit.Assert.assertTrue;
 
 public class ItemCrudDaoImplTest {
 
-    private static final String DATABASE_PROPERTIES = "database";
-
-    private ConnectorDB connector = new ConnectorDB(DATABASE_PROPERTIES);
-    private ItemPageableCrudDaoImpl itemCrudDao = new ItemPageableCrudDaoImpl(connector);
+    private static final String H2_PROPERTIES = "h2db";
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
+    private ItemPageableCrudDaoImpl itemCrudDao;
+
+    @Before
+    public void init() {
+        ConnectorDB connector = new ConnectorDB(H2_PROPERTIES);
+        itemCrudDao = new ItemPageableCrudDaoImpl(connector);
+
+        try {
+            Connection connection = connector.getConnection();
+            final Statement executeStatement = connection.createStatement();
+            String schemaQuery = new String(Files.readAllBytes(Paths.get("src/test/resources/schema.sql")));
+            System.out.println(schemaQuery);
+            executeStatement.execute(schemaQuery);
+            String dataQuery = new String(Files.readAllBytes(Paths.get("src/test/resources/data.sql")));
+            executeStatement.execute(dataQuery);
+            executeStatement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void findByNameShouldBePresent() {
         Optional<Item> item = itemCrudDao.findByName("Kumquat");
         assertTrue(item.isPresent());
-
     }
 
     @Test
@@ -56,7 +77,7 @@ public class ItemCrudDaoImplTest {
     }
 
     @Test
-    public void findByIdShouldThrowSuchElement() {
+    public void findByIdShouldThrowNoSuchElementException() {
         expectedException.expect(NoSuchElementException.class);
         Item userFromDb = itemCrudDao.findById(0).get();
         assertNotEquals(Item.builder().build(), userFromDb);

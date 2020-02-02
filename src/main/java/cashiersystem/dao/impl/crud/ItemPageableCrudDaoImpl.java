@@ -9,14 +9,14 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class ItemPageableCrudDaoImpl extends AbstractPageableCrudDao<Item> implements ItemCrudDao {
-    private static final String FIND_BY_NAME_QUERY = "SELECT * FROM cashierSystem.items WHERE name=?";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM cashierSystem.items WHERE id=?";
-    private static final String FIND_ALL_QUERY = "SELECT * FROM cashierSystem.items";
-    private static final String FIND_ALL_QUERY_LIMIT = "SELECT * FROM cashierSystem.items LIMIT ?, ?";
-    private static final String COUNT_ALL_ROWS = "SELECT COUNT(*) FROM cashierSystem.items";
-    private static final String DELETE_BY_ID_QUERY = "DELETE FROM cashierSystem.items WHERE id =";
-    private static final String SAVE_ITEM_QUERY = "INSERT INTO cashierSystem.items (name, weight, quantity) values (?,?,?);";
-    private static final String UPDATE_ITEM_QUERY = "UPDATE cashierSystem.items SET name =?, weight=?, quantity=? WHERE id = ?";
+    private static final String FIND_BY_NAME_QUERY = "SELECT * FROM items WHERE name=?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM items WHERE id=?";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM items";
+    private static final String FIND_ALL_QUERY_LIMIT = "SELECT * FROM items LIMIT ?, ?";
+    private static final String COUNT_ALL_ROWS = "SELECT COUNT(*) FROM items";
+    private static final String DELETE_BY_ID_QUERY = "DELETE FROM items WHERE id =";
+    private static final String SAVE_ITEM_QUERY = "INSERT INTO items (name, weight, quantity) values (?,?,?);";
+    private static final String UPDATE_ITEM_QUERY = "UPDATE items SET name =?, weight=?, quantity=? WHERE id = ?";
 
     public ItemPageableCrudDaoImpl(ConnectorDB connectorDB) {
         super(FIND_BY_ID_QUERY, DELETE_BY_ID_QUERY, COUNT_ALL_ROWS, FIND_ALL_QUERY,

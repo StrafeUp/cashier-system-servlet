@@ -6,9 +6,15 @@ import cashiersystem.entity.Item;
 import cashiersystem.entity.Receipt;
 import cashiersystem.entity.Status;
 import cashiersystem.entity.User;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -19,13 +25,33 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class  ReceiptPageableCrudDaoImplTest {
+public class ReceiptPageableCrudDaoImplTest {
 
-    private final ConnectorDB connector = new ConnectorDB("database");
-    private final ReceiptPageableCrudDaoImpl receiptPageableCrudDao = new ReceiptPageableCrudDaoImpl(connector);
+    private static final String H2_PROPERTIES = "h2db";
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
+    private ReceiptPageableCrudDaoImpl receiptPageableCrudDao;
+
+    @Before
+    public void init() {
+        ConnectorDB connector = new ConnectorDB(H2_PROPERTIES);
+        receiptPageableCrudDao = new ReceiptPageableCrudDaoImpl(connector);
+
+        try {
+            Connection connection = connector.getConnection();
+            final Statement executeStatement = connection.createStatement();
+            String schemaQuery = new String(Files.readAllBytes(Paths.get("src/test/resources/schema.sql")));
+            System.out.println(schemaQuery);
+            executeStatement.execute(schemaQuery);
+            String dataQuery = new String(Files.readAllBytes(Paths.get("src/test/resources/data.sql")));
+            executeStatement.execute(dataQuery);
+            executeStatement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void findAllByUser() {

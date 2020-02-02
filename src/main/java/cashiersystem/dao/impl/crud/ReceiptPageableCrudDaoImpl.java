@@ -23,23 +23,23 @@ public class ReceiptPageableCrudDaoImpl extends AbstractPageableCrudDao<Receipt>
     private static final Logger LOGGER = LogManager.getLogger(ReceiptPageableCrudDaoImpl.class);
 
     private static final String FIND_BY_USER_QUERY = "SELECT receipt_id, status_id, user_id, item_id, username, email, password, role_id, name, quantity, weight\n" +
-            "FROM cashierSystem.receipts\n" +
-            "         JOIN cashierSystem.users ON cashierSystem.receipts.user_id = cashierSystem.users.id\n" +
-            "         JOIN cashierSystem.items i ON cashierSystem.receipts.item_id = i.id\n" +
-            "WHERE cashierSystem.users.id = ?;";
+            "FROM receipts\n" +
+            "         JOIN users ON receipts.user_id = users.id\n" +
+            "         JOIN items i ON receipts.item_id = i.id\n" +
+            "WHERE users.id = ?;";
     private static final String FIND_BY_RECEIPT_ID = "SELECT receipt_id, status_id, user_id, item_id, name, quantity, weight\n" +
-            "FROM cashierSystem.receipts\n" +
-            "         JOIN cashierSystem.items i on receipts.item_id = i.id\n" +
+            "FROM receipts\n" +
+            "         JOIN items i on receipts.item_id = i.id\n" +
             "WHERE receipt_id = ?";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM cashierSystem.receipts WHERE id=?";
-    private static final String FIND_ALL_QUERY = "SELECT * FROM cashierSystem.receipts";
-    private static final String FIND_ALL_QUERY_LIMIT = "SELECT * FROM cashierSystem.receipts LIMIT ?, ?";
-    private static final String COUNT_ALL_ROWS = "SELECT COUNT(*) FROM cashierSystem.receipts";
-    private static final String DELETE_BY_ID_QUERY = "DELETE FROM cashierSystem.receipts WHERE id =?";
-    private static final String SAVE_RECEIPT_QUERY = "INSERT INTO cashierSystem.receipts (receipt_id, status_id, user_id, item_id) VALUES (?, ?, ?, ?);";
-    private static final String UPDATE_RECEIPT_QUERY = "UPDATE cashierSystem.receipts SET receipt_id=?, status_id =?, user_id=?, item_id=? WHERE id = ?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM receipts WHERE id=?";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM receipts";
+    private static final String FIND_ALL_QUERY_LIMIT = "SELECT * FROM receipts LIMIT ?, ?";
+    private static final String COUNT_ALL_ROWS = "SELECT COUNT(*) FROM receipts";
+    private static final String DELETE_BY_ID_QUERY = "DELETE FROM receipts WHERE id =?";
+    private static final String SAVE_RECEIPT_QUERY = "INSERT INTO receipts (receipt_id, status_id, user_id, item_id) VALUES (?, ?, ?, ?);";
+    private static final String UPDATE_RECEIPT_QUERY = "UPDATE receipts SET receipt_id=?, status_id =?, user_id=?, item_id=? WHERE id = ?";
 
-    private static final String MAX_RECEIPT_NUMBER = "SELECT MAX(receipt_id) FROM cashierSystem.receipts";
+    private static final String MAX_RECEIPT_NUMBER = "SELECT MAX(receipt_id) FROM receipts";
 
     public ReceiptPageableCrudDaoImpl(ConnectorDB connectorDB) {
         super(FIND_BY_ID_QUERY, DELETE_BY_ID_QUERY, COUNT_ALL_ROWS,

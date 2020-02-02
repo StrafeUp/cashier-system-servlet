@@ -10,14 +10,14 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class UserPageableCrudDaoImpl extends AbstractPageableCrudDao<User> implements UserCrudDao {
-    private static final String FIND_BY_EMAIL_QUERY = "SELECT * FROM cashierSystem.users WHERE email=?";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM cashierSystem.users WHERE id=?";
-    private static final String FIND_ALL_QUERY = "SELECT * FROM cashierSystem.users";
-    private static final String FIND_ALL_QUERY_LIMIT = "SELECT * FROM cashierSystem.users LIMIT ?, ?";
-    private static final String COUNT_ALL_ROWS = "SELECT COUNT(*) FROM cashierSystem.users";
-    private static final String SAVE_USER_QUERY = "INSERT INTO cashierSystem.users (username, email, password, role_id) VALUES (?, ?, ?, ?)";
-    private static final String DELETE_BY_ID_QUERY = "DELETE FROM cashierSystem.users WHERE id =?";
-    private static final String UPDATE_USER_QUERY = "UPDATE cashierSystem.users SET username =?, email=?, password=?, role_id=? WHERE id = ?";
+    private static final String FIND_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM users WHERE id=?";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM users";
+    private static final String FIND_ALL_QUERY_LIMIT = "SELECT * FROM users LIMIT ?, ?";
+    private static final String COUNT_ALL_ROWS = "SELECT COUNT(*) FROM users";
+    private static final String SAVE_USER_QUERY = "INSERT INTO users (username, email, password, role_id) VALUES (?, ?, ?, ?)";
+    private static final String DELETE_BY_ID_QUERY = "DELETE FROM users WHERE id =?";
+    private static final String UPDATE_USER_QUERY = "UPDATE users SET username =?, email=?, password=?, role_id=? WHERE id = ?";
 
     public UserPageableCrudDaoImpl(ConnectorDB connectorDB) {
         super(FIND_BY_ID_QUERY, DELETE_BY_ID_QUERY, COUNT_ALL_ROWS,

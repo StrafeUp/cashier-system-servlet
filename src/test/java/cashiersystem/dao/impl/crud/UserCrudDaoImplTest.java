@@ -5,9 +5,14 @@ import cashiersystem.dao.impl.ConnectorDB;
 import cashiersystem.entity.Role;
 import cashiersystem.entity.User;
 import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -18,27 +23,47 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class UserCrudDaoImplTest {
-    private final ConnectorDB connector = new ConnectorDB("database");
-    private final UserPageableCrudDaoImpl userCrudDao = new UserPageableCrudDaoImpl(connector);
+    private static final String H2_PROPERTIES = "h2db";
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
+    private UserPageableCrudDaoImpl userPageableCrudDao;
+
+    @Before
+    public void init() {
+        ConnectorDB connector = new ConnectorDB(H2_PROPERTIES);
+        userPageableCrudDao = new UserPageableCrudDaoImpl(connector);
+
+        try {
+            Connection connection = connector.getConnection();
+            final Statement executeStatement = connection.createStatement();
+            String schemaQuery = new String(Files.readAllBytes(Paths.get("src/test/resources/schema.sql")));
+            System.out.println(schemaQuery);
+            executeStatement.execute(schemaQuery);
+            String dataQuery = new String(Files.readAllBytes(Paths.get("src/test/resources/data.sql")));
+            executeStatement.execute(dataQuery);
+            executeStatement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void findByEmailShouldBePresent() {
-        Optional<User> byEmail = userCrudDao.findByEmail("Hello@gmail.com");
+        Optional<User> byEmail = userPageableCrudDao.findByEmail("Hello@gmail.com");
         assertTrue(byEmail.isPresent());
 
     }
 
     @Test
     public void findAllShouldReturnPage() {
-        assertTrue(userCrudDao.findAll(new Page(1, 1)).size() > 0);
+        assertTrue(userPageableCrudDao.findAll(new Page(1, 1)).size() > 0);
     }
 
     @Test
     public void findByIdShouldReturnUser() {
-        User userFromDb = userCrudDao.findById(1).get();
+        User userFromDb = userPageableCrudDao.findById(1).get();
         User user = User.builder()
                 .withId(1L)
                 .withUsername("Hello123")
@@ -51,7 +76,7 @@ public class UserCrudDaoImplTest {
     @Test
     public void findByIdShouldThrowSuchElement() {
         expectedException.expect(NoSuchElementException.class);
-        User userFromDb = userCrudDao.findById(2).get();
+        User userFromDb = userPageableCrudDao.findById(2).get();
         User user = User.builder()
                 .withId(1L)
                 .withUsername("Hello123")
@@ -64,7 +89,7 @@ public class UserCrudDaoImplTest {
 
     @Test
     public void countShouldBeMoreThanZero() {
-        assertTrue(userCrudDao.count() > 0);
+        assertTrue(userPageableCrudDao.count() > 0);
     }
 
     @Test
@@ -85,7 +110,7 @@ public class UserCrudDaoImplTest {
                 .withRole(Role.MERCHANDISER)
                 .build();
 
-        List<User> allUsers = userCrudDao.findAll();
+        List<User> allUsers = userPageableCrudDao.findAll();
         assertThat(allUsers, Matchers.containsInAnyOrder(user1, user2));
     }
 }
