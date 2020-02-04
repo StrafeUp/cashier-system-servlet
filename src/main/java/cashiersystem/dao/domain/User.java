@@ -1,6 +1,6 @@
-package cashiersystem.entity;
+package cashiersystem.dao.domain;
 
-import java.util.Objects;
+import cashiersystem.entity.Role;
 
 public class User {
     private final Long id;
@@ -17,8 +17,8 @@ public class User {
         this.role = builder.role;
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public static User.Builder builder() {
+        return new User.Builder();
     }
 
     public String getUsername() {
@@ -39,27 +39,6 @@ public class User {
 
     public Role getRole() {
         return role;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || this.getClass() != o.getClass()) {
-            return false;
-        }
-        User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(username, user.username) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(password, user.password) &&
-                role == user.role;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username, email, password, role);
     }
 
     @Override

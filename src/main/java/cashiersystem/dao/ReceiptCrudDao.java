@@ -1,13 +1,13 @@
 package cashiersystem.dao;
 
-import cashiersystem.entity.Receipt;
-import cashiersystem.entity.User;
+import cashiersystem.entity.ReceiptEntity;
+import cashiersystem.entity.UserEntity;
 
 import java.util.List;
 
-public interface ReceiptCrudDao extends CrudPageableDao<Receipt> {
+public interface ReceiptCrudDao extends CrudPageableDao<ReceiptEntity> {
 
-    List<Receipt> findAllByUser(User user);
+    List<ReceiptEntity> findAllByUser(UserEntity userEntity);
 
-    Receipt findByReceiptId(Long receiptId);
+    ReceiptEntity findByReceiptId(Long receiptId);
 }

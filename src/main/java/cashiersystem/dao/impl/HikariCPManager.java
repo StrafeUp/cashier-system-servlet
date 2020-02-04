@@ -1,25 +1,29 @@
 package cashiersystem.dao.impl;
 
+import cashiersystem.dao.ConnectionPool;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ConnectorDB {
-    private HikariDataSource dataSource;
+public class HikariCPManager implements ConnectionPool {
+    private final HikariDataSource dataSource;
 
-    public ConnectorDB(String filename) {
+    public HikariCPManager(String filename) {
         ResourceBundle resource = ResourceBundle.getBundle(filename);
         HikariConfig config = new HikariConfig();
         config.setDriverClassName(resource.getString("db.driver"));
         config.setJdbcUrl(resource.getString("db.url"));
         config.setUsername(resource.getString("db.user"));
         config.setPassword(resource.getString("db.password"));
-        config.setMaximumPoolSize(Integer.parseInt(resource.getString("db.pool.size")));
-        config.setConnectionTimeout(Long.parseLong(resource.getString("db.timeout")));
+        config.setMaximumPoolSize(getIntProperty(resource,"db.pool.size"));
+        config.setConnectionTimeout(getIntProperty(resource, "db.timeout"));
         this.dataSource = new HikariDataSource(config);
+    }
+
+    private int getIntProperty(ResourceBundle resource, String key) {
+        return Integer.parseInt(resource.getString(key));
     }
 
     public Connection getConnection() throws SQLException {

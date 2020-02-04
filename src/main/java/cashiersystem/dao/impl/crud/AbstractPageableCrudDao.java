@@ -1,9 +1,9 @@
 package cashiersystem.dao.impl.crud;
 
+import cashiersystem.dao.ConnectionPool;
 import cashiersystem.dao.CrudPageableDao;
 import cashiersystem.dao.domain.Page;
 import cashiersystem.dao.exception.DataBaseSqlRuntimeException;
-import cashiersystem.dao.impl.ConnectorDB;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.sql.PreparedStatement;
@@ -31,7 +31,7 @@ public abstract class AbstractPageableCrudDao<E> implements CrudPageableDao<E> {
             LOGGER.error(e);
         }
     });
-    protected final ConnectorDB connectorDB;
+    protected final ConnectionPool connectionPool;
     private final String findByIdQuery;
     private final String deleteByIdQuery;
     private final String countQuery;
@@ -43,7 +43,7 @@ public abstract class AbstractPageableCrudDao<E> implements CrudPageableDao<E> {
 
     protected AbstractPageableCrudDao(String findByIdQuery, String deleteByIdQuery, String countQuery,
                                       String findAllQuery, String findAllLimitQuery, String saveEntityQuery,
-                                      String updateItemQuery, ConnectorDB connectorDB) {
+                                      String updateItemQuery, ConnectionPool connectionPool) {
         this.findByIdQuery = findByIdQuery;
         this.deleteByIdQuery = deleteByIdQuery;
         this.countQuery = countQuery;
@@ -51,7 +51,7 @@ public abstract class AbstractPageableCrudDao<E> implements CrudPageableDao<E> {
         this.findAllLimitQuery = findAllLimitQuery;
         this.saveEntityQuery = saveEntityQuery;
         this.updateItemQuery = updateItemQuery;
-        this.connectorDB = connectorDB;
+        this.connectionPool = connectionPool;
     }
 
     @Override
@@ -61,7 +61,7 @@ public abstract class AbstractPageableCrudDao<E> implements CrudPageableDao<E> {
 
     @Override
     public long count() {
-        try (final ResultSet resultSet = connectorDB.getConnection().prepareStatement(countQuery).executeQuery()) {
+        try (final ResultSet resultSet = connectionPool.getConnection().prepareStatement(countQuery).executeQuery()) {
             if (resultSet.next()) {
                 return resultSet.getLong(1);
             }
@@ -75,7 +75,7 @@ public abstract class AbstractPageableCrudDao<E> implements CrudPageableDao<E> {
 
     @Override
     public void deleteById(Integer id) {
-        try (PreparedStatement preparedStatement = connectorDB.getConnection().prepareStatement(deleteByIdQuery)) {
+        try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(deleteByIdQuery)) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -86,7 +86,7 @@ public abstract class AbstractPageableCrudDao<E> implements CrudPageableDao<E> {
 
     @Override
     public List<E> findAll() {
-        try (final ResultSet resultSet = connectorDB.getConnection().prepareStatement(findAllQuery).executeQuery()) {
+        try (final ResultSet resultSet = connectionPool.getConnection().prepareStatement(findAllQuery).executeQuery()) {
             List<E> tempList = new ArrayList<>();
             while (resultSet.next()) {
                 final E optionalEntity = mapResultSetToEntity(resultSet);
@@ -102,7 +102,7 @@ public abstract class AbstractPageableCrudDao<E> implements CrudPageableDao<E> {
     @Override
     public List<E> findAll(Page page) {
         try (final PreparedStatement preparedStatement =
-                     connectorDB.getConnection().prepareStatement(findAllLimitQuery)) {
+                     connectionPool.getConnection().prepareStatement(findAllLimitQuery)) {
             preparedStatement.setInt(1, (page.getPageNumber() - 1) * page.getItemsPerPage());
             preparedStatement.setInt(2, page.getItemsPerPage());
 
@@ -121,8 +121,8 @@ public abstract class AbstractPageableCrudDao<E> implements CrudPageableDao<E> {
     }
 
     @Override
-    public void save(E entity){
-        try (PreparedStatement preparedStatement = connectorDB.getConnection().prepareStatement(saveEntityQuery)) {
+    public void save(E entity) {
+        try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(saveEntityQuery)) {
             prepareEntity(entity, preparedStatement);
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -133,7 +133,7 @@ public abstract class AbstractPageableCrudDao<E> implements CrudPageableDao<E> {
 
     @Override
     public void update(E entity) {
-        try (PreparedStatement preparedStatement = connectorDB.getConnection().prepareStatement(updateItemQuery)) {
+        try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(updateItemQuery)) {
             prepareEntityWithId(entity, preparedStatement);
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -143,7 +143,7 @@ public abstract class AbstractPageableCrudDao<E> implements CrudPageableDao<E> {
     }
 
     protected <P> Optional<E> findByParam(P param, String findByParam, BiConsumer<PreparedStatement, P> designatedParamSetter) {
-        try (PreparedStatement preparedStatement = connectorDB.getConnection().prepareStatement(findByParam)) {
+        try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(findByParam)) {
             designatedParamSetter.accept(preparedStatement, param);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -161,6 +161,7 @@ public abstract class AbstractPageableCrudDao<E> implements CrudPageableDao<E> {
     protected abstract E mapResultSetToEntity(ResultSet resultSet) throws SQLException;
 
     protected abstract void prepareEntity(E entity, PreparedStatement preparedStatement) throws SQLException;
+
     protected abstract void prepareEntityWithId(E entity, PreparedStatement preparedStatement) throws SQLException;
 
     protected String prepareErrorMessage(String query) {

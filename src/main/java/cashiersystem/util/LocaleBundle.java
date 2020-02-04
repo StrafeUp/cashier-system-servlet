@@ -2,7 +2,7 @@ package cashiersystem.util;
 
 import java.util.ResourceBundle;
 
-public class LocaleBundle {
+public final class LocaleBundle {
     private static ResourceBundle resource = ResourceBundle.getBundle("view_en");
 
     public static ResourceBundle getResource() {

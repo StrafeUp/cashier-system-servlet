@@ -1,9 +1,9 @@
 package cashiersystem.dao;
 
-import cashiersystem.entity.Item;
+import cashiersystem.entity.ItemEntity;
 import java.util.Optional;
 
-public interface ItemCrudDao extends CrudPageableDao<Item>{
+public interface ItemCrudDao extends CrudPageableDao<ItemEntity>{
 
-    Optional<Item> findByName(String name);
+    Optional<ItemEntity> findByName(String name);
 }

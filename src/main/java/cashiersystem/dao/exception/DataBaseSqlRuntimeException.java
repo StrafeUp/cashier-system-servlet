@@ -4,7 +4,6 @@ public class DataBaseSqlRuntimeException extends RuntimeException {
 
     public DataBaseSqlRuntimeException() {
     }
-
     public DataBaseSqlRuntimeException(String message) {
         super(message);
     }

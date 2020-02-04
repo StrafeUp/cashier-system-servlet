@@ -2,7 +2,7 @@ drop table if exists receipts;
 drop table if exists statuses;
 drop table if exists users;
 drop table if exists roles;
-drop table if exists items;
+drop table if exists itemEntities;
 
 create table if not exists items
 (

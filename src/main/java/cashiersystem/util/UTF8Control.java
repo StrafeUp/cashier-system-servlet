@@ -9,7 +9,7 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-public class UTF8Control extends ResourceBundle.Control {
+public final class UTF8Control extends ResourceBundle.Control {
 
     @Override
     public ResourceBundle newBundle

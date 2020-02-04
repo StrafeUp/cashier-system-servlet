@@ -2,13 +2,13 @@ package cashiersystem.entity;
 
 import java.util.Objects;
 
-public class Item {
+public class ItemEntity {
     private final Long id;
     private final String name;
     private final double weight;
     private final int quantity;
 
-    public Item(Builder builder) {
+    public ItemEntity(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
         this.weight = builder.weight;
@@ -43,11 +43,11 @@ public class Item {
         if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
-        Item item = (Item) o;
-        return Double.compare(item.weight, weight) == 0 &&
-                quantity == item.quantity &&
-                Objects.equals(id, item.id) &&
-                Objects.equals(name, item.name);
+        ItemEntity itemEntity = (ItemEntity) o;
+        return Double.compare(itemEntity.weight, weight) == 0 &&
+                quantity == itemEntity.quantity &&
+                Objects.equals(id, itemEntity.id) &&
+                Objects.equals(name, itemEntity.name);
     }
 
     @Override
@@ -74,8 +74,8 @@ public class Item {
         private Builder() {
         }
 
-        public Item build() {
-            return new Item(this);
+        public ItemEntity build() {
+            return new ItemEntity(this);
         }
 
         public Builder withId(Long id) {

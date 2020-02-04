@@ -1,15 +1,15 @@
 package cashiersystem.dao.impl.crud;
 
+import cashiersystem.dao.ConnectionPool;
 import cashiersystem.dao.UserCrudDao;
-import cashiersystem.dao.impl.ConnectorDB;
 import cashiersystem.entity.Role;
-import cashiersystem.entity.User;
+import cashiersystem.entity.UserEntity;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class UserPageableCrudDaoImpl extends AbstractPageableCrudDao<User> implements UserCrudDao {
+public class UserPageableCrudDaoImpl extends AbstractPageableCrudDao<UserEntity> implements UserCrudDao {
     private static final String FIND_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM users WHERE id=?";
     private static final String FIND_ALL_QUERY = "SELECT * FROM users";
@@ -19,19 +19,19 @@ public class UserPageableCrudDaoImpl extends AbstractPageableCrudDao<User> imple
     private static final String DELETE_BY_ID_QUERY = "DELETE FROM users WHERE id =?";
     private static final String UPDATE_USER_QUERY = "UPDATE users SET username =?, email=?, password=?, role_id=? WHERE id = ?";
 
-    public UserPageableCrudDaoImpl(ConnectorDB connectorDB) {
+    public UserPageableCrudDaoImpl(ConnectionPool connectionPool) {
         super(FIND_BY_ID_QUERY, DELETE_BY_ID_QUERY, COUNT_ALL_ROWS,
-                FIND_ALL_QUERY, FIND_ALL_QUERY_LIMIT, SAVE_USER_QUERY, UPDATE_USER_QUERY, connectorDB);
+                FIND_ALL_QUERY, FIND_ALL_QUERY_LIMIT, SAVE_USER_QUERY, UPDATE_USER_QUERY, connectionPool);
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public Optional<UserEntity> findByEmail(String email) {
         return findByParam(email, FIND_BY_EMAIL_QUERY, STRING_PARAM_SETTER);
     }
 
     @Override
-    protected User mapResultSetToEntity(ResultSet resultSet) throws SQLException {
-        return User.builder()
+    protected UserEntity mapResultSetToEntity(ResultSet resultSet) throws SQLException {
+        return UserEntity.builder()
                 .withId(resultSet.getLong("id"))
                 .withUsername(resultSet.getString("username"))
                 .withPassword(resultSet.getString("password"))
@@ -40,7 +40,7 @@ public class UserPageableCrudDaoImpl extends AbstractPageableCrudDao<User> imple
     }
 
     @Override
-    protected void prepareEntity(User entity, PreparedStatement preparedStatement) throws SQLException {
+    protected void prepareEntity(UserEntity entity, PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setString(1, entity.getUsername());
         preparedStatement.setString(2, entity.getEmail());
         preparedStatement.setString(3, entity.getPassword());
@@ -48,7 +48,7 @@ public class UserPageableCrudDaoImpl extends AbstractPageableCrudDao<User> imple
     }
 
     @Override
-    protected void prepareEntityWithId(User entity, PreparedStatement preparedStatement) throws SQLException {
+    protected void prepareEntityWithId(UserEntity entity, PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setString(1, entity.getUsername());
         preparedStatement.setString(2, entity.getEmail());
         preparedStatement.setString(3, entity.getPassword());

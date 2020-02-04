@@ -4,19 +4,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Receipt {
+public class ReceiptEntity {
     private final Long id;
     private final Long receiptId;
     private final Status status;
-    private final User user;
-    private final List<Item> items;
+    private final UserEntity userEntity;
+    private final List<ItemEntity> itemEntities;
 
-    public Receipt(Builder builder) {
+    public ReceiptEntity(Builder builder) {
         this.id = builder.id;
         this.receiptId = builder.receiptId;
         this.status = builder.status;
-        this.user = builder.user;
-        this.items = builder.items;
+        this.userEntity = builder.userEntity;
+        this.itemEntities = builder.itemEntities;
     }
 
     public static Builder builder() {
@@ -35,20 +35,20 @@ public class Receipt {
         return status;
     }
 
-    public User getUser() {
-        return user;
+    public UserEntity getUserEntity() {
+        return userEntity;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public List<ItemEntity> getItemEntities() {
+        return itemEntities;
     }
 
-    public void addItem(Item item) {
-        items.add(item);
+    public void addItem(ItemEntity itemEntity) {
+        itemEntities.add(itemEntity);
     }
 
-    public void removeItem(Item item) {
-        items.remove(item);
+    public void removeItem(ItemEntity itemEntity) {
+        itemEntities.remove(itemEntity);
     }
 
     @Override
@@ -59,17 +59,17 @@ public class Receipt {
         if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
-        Receipt receipt = (Receipt) o;
-        return Objects.equals(id, receipt.id) &&
-                Objects.equals(receiptId, receipt.receiptId) &&
-                status == receipt.status &&
-                Objects.equals(user, receipt.user) &&
-                Objects.equals(items, receipt.items);
+        ReceiptEntity receiptEntity = (ReceiptEntity) o;
+        return Objects.equals(id, receiptEntity.id) &&
+                Objects.equals(receiptId, receiptEntity.receiptId) &&
+                status == receiptEntity.status &&
+                Objects.equals(userEntity, receiptEntity.userEntity) &&
+                Objects.equals(itemEntities, receiptEntity.itemEntities);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, receiptId, status, user, items);
+        return Objects.hash(id, receiptId, status, userEntity, itemEntities);
     }
 
     @Override
@@ -77,8 +77,8 @@ public class Receipt {
         return "Receipt{" +
                 "id=" + id +
                 ", status=" + status +
-                ", user=" + user +
-                ", items=" + items +
+                ", user=" + userEntity +
+                ", items=" + itemEntities +
                 '}';
     }
 
@@ -86,18 +86,18 @@ public class Receipt {
         private Long id;
         private Long receiptId;
         private Status status;
-        private User user;
-        private List<Item> items;
+        private UserEntity userEntity;
+        private List<ItemEntity> itemEntities;
 
         private Builder() {
 
         }
 
-        public Receipt build() {
-            if (items == null) {
-                items = Collections.emptyList();
+        public ReceiptEntity build() {
+            if (itemEntities == null) {
+                itemEntities = Collections.emptyList();
             }
-            return new Receipt(this);
+            return new ReceiptEntity(this);
         }
 
         public Builder withId(Long id) {
@@ -114,13 +114,13 @@ public class Receipt {
             return this;
         }
 
-        public Builder withUser(User user) {
-            this.user = user;
+        public Builder withUser(UserEntity userEntity) {
+            this.userEntity = userEntity;
             return this;
         }
 
-        public Builder withItems(List<Item> items) {
-            this.items = items;
+        public Builder withItems(List<ItemEntity> itemEntities) {
+            this.itemEntities = itemEntities;
             return this;
         }
     }
