@@ -26,6 +26,7 @@ public abstract class AbstractEntityCrudDaoImplTest {
             executeStatement.close();
             connection.close();
         } catch (Exception e) {
+            e.printStackTrace();
             fail();
         }
     }
