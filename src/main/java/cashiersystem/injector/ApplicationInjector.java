@@ -1,6 +1,7 @@
 package cashiersystem.injector;
 
 import cashiersystem.command.Command;
+import cashiersystem.command.user.ListAllUsersCommand;
 import cashiersystem.command.user.LoginCommand;
 import cashiersystem.command.user.LogoutCommand;
 import cashiersystem.command.user.RegisterCommand;
@@ -33,17 +34,20 @@ public class ApplicationInjector {
     private static final Command LOGIN_COMMAND = new LoginCommand(USER_SERVICE);
     private static final Command LOGOUT_COMMAND = new LogoutCommand();
     private static final Command REGISTER_COMMAND = new RegisterCommand(USER_SERVICE);
+    private static final Command LIST_ALL_USERS_COMMAND = new ListAllUsersCommand(USER_SERVICE);
 
-    private static final Map<String, Command> USER_COMMAND_NAME_TO_COMMAND = initUserCommand();
+
+    private static final Map<String, Command> URL_TO_COMMAND = initUserCommand();
 
     private ApplicationInjector() {
     }
 
     private static Map<String, Command> initUserCommand() {
         Map<String, Command> userCommandNameToCommand = new HashMap<>();
-        userCommandNameToCommand.put("login", LOGIN_COMMAND);
-        userCommandNameToCommand.put("logout", LOGOUT_COMMAND);
-        userCommandNameToCommand.put("register", REGISTER_COMMAND);
+        userCommandNameToCommand.put("/user/login", LOGIN_COMMAND);
+        userCommandNameToCommand.put("/user/logout", LOGOUT_COMMAND);
+        userCommandNameToCommand.put("/user/register", REGISTER_COMMAND);
+        userCommandNameToCommand.put("/user/listAllUsers", LIST_ALL_USERS_COMMAND);
 
         return Collections.unmodifiableMap(userCommandNameToCommand);
     }
@@ -57,6 +61,6 @@ public class ApplicationInjector {
     }
 
     public Map<String, Command> getUserCommandNameToCommand() {
-        return USER_COMMAND_NAME_TO_COMMAND;
+        return URL_TO_COMMAND;
     }
 }

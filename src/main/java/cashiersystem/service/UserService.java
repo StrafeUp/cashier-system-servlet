@@ -4,12 +4,13 @@ import cashiersystem.dao.domain.Page;
 import cashiersystem.dao.domain.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
 
     void register(User user);
 
-    User login(String email, String password);
+    Optional<User> login(String email, String password);
 
     List<User> findAll(Page page);
 

@@ -5,6 +5,7 @@
 
 # Log file
 *.log
+logs/
 
 # BlueJ files
 *.ctxt
@@ -137,3 +138,13 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
+.idea/artifacts/
+.idea/codeStyles/
+.idea/compiler.xml
+.idea/dataSources.xml
+.idea/jsLibraryMappings.xml
+.idea/misc.xml
+.idea/sonarlint/
+.idea/sqldialects.xml
+.idea/vcs.xml
+CashierSystem.iml

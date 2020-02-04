@@ -4,7 +4,7 @@
     <title>Register page</title>
 </head>
 <body>
-<form action="${pageContext.request.contextPath}/user" method="post">
+<form action="${pageContext.request.contextPath}/user/register" method="post">
     <input type="hidden" value="register" name="command">
 
     <label for="username">Enter username</label>
@@ -23,6 +23,8 @@
            name="password2">
 
     <input type="submit" name="submit" value="log in"/>
+
+    <p>${requestScope.error}</p>
 
 </form>
 

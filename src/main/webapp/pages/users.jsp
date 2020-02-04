@@ -10,10 +10,13 @@
 
 </head>
 <body>
-<td>User:</td>
-${user}
+
+<c:if test="${sessionScope.user} != null">
+    <td>User:</td>
+    ${sessionScope.user}</c:if>
+
 <table class="table">
-    <c:forEach items="${users}" var="user">
+    <c:forEach items="${requestScope.users}" var="user">
         <tr>
             <td>User ID: <c:out value="${user.id}"/></td>
             <td>Username: <c:out value="${user.username}"/></td>
