@@ -1,0 +1,49 @@
+body {
+    background: linear-gradient(to top right, rgba(0, 162, 255, 0.1), rgba(0, 81, 128, 0.2));
+}
+
+.vertical-center {
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.index-block {
+    min-height: 60vh;
+}
+
+.flex-column {
+    text-align: center;
+}
+
+.flex-column * {
+    margin-bottom: 2vh;
+    margin-top: 1vh;
+}
+
+.h1 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 3vh;
+}
+
+.btn-block {
+    width: 100%;
+    height: 6vh;
+}
+
+.btn {
+    font-size: x-large;
+}
+
+label {
+    font-size: 2rem;
+}
+
+p {
+    color: darkred;
+}
+
+.blankDiv{
+    height: 8rem;
+}

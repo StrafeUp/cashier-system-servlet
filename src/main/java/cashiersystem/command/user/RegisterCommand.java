@@ -33,9 +33,15 @@ public class RegisterCommand implements Command {
         final String password2 = request.getParameter("password2");
         final String username = request.getParameter("username");
 
+        if(email.isEmpty() || username.isEmpty() || password1.isEmpty() || password2.isEmpty()){
+            LOGGER.warn("Field cannot by empty");
+            request.setAttribute(ERROR_PAGE_ATTRIBUTE, "Field cannot be empty");
+            request.getRequestDispatcher(REGISTER_PAGE_PATH).forward(request, response);
+        }
+
         if (!Objects.equals(password1, password2)) {
             LOGGER.warn("Passwords do not match");
-            request.setAttribute(ERROR_PAGE_ATTRIBUTE, "User not found, check your credentials");
+            request.setAttribute(ERROR_PAGE_ATTRIBUTE, "Passwords do not match");
             request.getRequestDispatcher(REGISTER_PAGE_PATH).forward(request, response);
         }
 
