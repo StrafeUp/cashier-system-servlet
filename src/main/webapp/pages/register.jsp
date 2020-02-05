@@ -44,7 +44,7 @@
 
                     <p>${requestScope.error}</p>
 
-                    <input class="btn btn-primary" type="submit" name="submit" value="Log in"/>
+                    <input class="btn btn-primary" type="submit" value="Log in"/>
                 </form>
             </div>
         </div>

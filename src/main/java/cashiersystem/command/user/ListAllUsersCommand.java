@@ -10,6 +10,8 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ListAllUsersCommand implements Command {
     public static final int ITEMS_PER_PAGE = 10;
@@ -33,6 +35,13 @@ public class ListAllUsersCommand implements Command {
         }
 
         List<User> allUsersAtPage = userService.findAll(new Page(page, ITEMS_PER_PAGE));
+        int userCount = userService.count();
+        int pageCount = (int) Math.ceil(userCount * 1.0 / ITEMS_PER_PAGE);
+        System.out.println(pageCount);
+        List<Integer> pages = IntStream.rangeClosed(1, pageCount).boxed().collect(Collectors.toList());
+
+        request.setAttribute("pageCount", pageCount);
+        request.setAttribute("pages", pages);
         request.setAttribute("users", allUsersAtPage);
         return "/pages/users.jsp";
     }

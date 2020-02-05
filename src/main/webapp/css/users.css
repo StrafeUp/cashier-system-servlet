@@ -1,0 +1,11 @@
+body {
+    background: linear-gradient(to top right, rgba(0, 162, 255, 0.1), rgba(0, 81, 128, 0.2));
+}
+
+.container.rounded {
+    margin: auto;
+}
+
+.row {
+    padding: 1rem;
+}

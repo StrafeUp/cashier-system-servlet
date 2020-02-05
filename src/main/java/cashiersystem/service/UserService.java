@@ -14,4 +14,6 @@ public interface UserService {
 
     List<User> findAll(Page page);
 
+    int count();
+
 }

@@ -41,9 +41,10 @@ public class LoginCommand implements Command {
         }
 
         final HttpSession session = createNewSession(request);
+        System.out.println(user.get());
         session.setAttribute("user", user.get());
 
-        return "/index.jsp";
+        return "/user/listAllUsers";
     }
 
     private HttpSession createNewSession(HttpServletRequest request) {

@@ -9,6 +9,7 @@ import cashiersystem.service.encoder.PasswordEncoder;
 import cashiersystem.service.exception.EntityAlreadyExistsException;
 import cashiersystem.service.mapper.UserMapper;
 import cashiersystem.service.validator.Validator;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,8 +46,12 @@ public class UserServiceImpl implements UserService {
                 .filter(x -> Objects.equals(x.getPassword(), passwordEncoder.encode(password)));
     }
 
+    public int count() {
+        return (int) userPageableCrudDao.count();
+    }
+
     public List<User> findAll(Page page) {
-        int maxPageNumber = (int) (userPageableCrudDao.count() / page.getItemsPerPage());
+        int maxPageNumber = (int) Math.ceil(count() * 1.0 / page.getItemsPerPage());
         int pageNumber = page.getPageNumber();
 
         if (maxPageNumber <= 0) {
