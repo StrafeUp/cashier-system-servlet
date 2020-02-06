@@ -5,30 +5,32 @@ import cashiersystem.entity.Role;
 import cashiersystem.entity.UserEntity;
 import cashiersystem.service.encoder.PasswordEncoder;
 
-public class UserMapper {
+public class UserMapper implements Mapper<UserEntity, User> {
     private final PasswordEncoder passwordEncoder;
 
     public UserMapper(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User mapUserEntityToUser(UserEntity userEntity) {
-        return User.builder()
-                .withId(userEntity.getId())
-                .withUsername(userEntity.getUsername())
-                .withEmail(userEntity.getEmail())
-                .withRole(userEntity.getRole())
-                .withPassword(userEntity.getPassword())
+    @Override
+    public UserEntity mapDomainToEntity(User domain) {
+        return UserEntity.builder()
+                .withId(domain.getId())
+                .withUsername(domain.getUsername())
+                .withEmail(domain.getEmail())
+                .withRole(Role.CASHIER)
+                .withPassword(passwordEncoder.encode(domain.getPassword()))
                 .build();
     }
 
-    public UserEntity mapUserToUserEntity(User user) {
-        return UserEntity.builder()
-                .withId(user.getId())
-                .withUsername(user.getUsername())
-                .withEmail(user.getEmail())
-                .withRole(Role.CASHIER)
-                .withPassword(passwordEncoder.encode(user.getPassword()))
+    @Override
+    public User mapEntityToDomain(UserEntity entity) {
+        return User.builder()
+                .withId(entity.getId())
+                .withUsername(entity.getUsername())
+                .withEmail(entity.getEmail())
+                .withRole(entity.getRole())
+                .withPassword(entity.getPassword())
                 .build();
     }
 }

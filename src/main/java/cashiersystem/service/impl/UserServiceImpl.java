@@ -9,7 +9,6 @@ import cashiersystem.service.encoder.PasswordEncoder;
 import cashiersystem.service.exception.EntityAlreadyExistsException;
 import cashiersystem.service.mapper.UserMapper;
 import cashiersystem.service.validator.Validator;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -17,13 +16,13 @@ import java.util.stream.Collectors;
 
 public class UserServiceImpl implements UserService {
 
-    private final UserCrudDao userPageableCrudDao;
+    private final UserCrudDao userCrudDao;
     private final UserMapper userMapper;
     private final Validator validator;
     private final PasswordEncoder passwordEncoder;
-
-    public UserServiceImpl(UserCrudDao userPageableCrudDao, UserMapper userMapper, Validator validator, PasswordEncoder passwordEncoder) {
-        this.userPageableCrudDao = userPageableCrudDao;
+    //TODO validation
+    public UserServiceImpl(UserCrudDao userCrudDao, UserMapper userMapper, Validator validator, PasswordEncoder passwordEncoder) {
+        this.userCrudDao = userCrudDao;
         this.userMapper = userMapper;
         this.validator = validator;
         this.passwordEncoder = passwordEncoder;
@@ -32,22 +31,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public void register(User user) {
         validator.validate(user);
-        Optional<UserEntity> byEmail = userPageableCrudDao.findByEmail(user.getEmail());
+        Optional<UserEntity> byEmail = userCrudDao.findByEmail(user.getEmail());
         if (byEmail.isPresent()) {
             throw new EntityAlreadyExistsException(401);
         }
-        userPageableCrudDao.save(userMapper.mapUserToUserEntity(user));
+        userCrudDao.save(userMapper.mapDomainToEntity(user));
     }
 
     @Override
     public Optional<User> login(String email, String password) {
-        return userPageableCrudDao.findByEmail(email)
-                .map(userMapper::mapUserEntityToUser)
+        return userCrudDao.findByEmail(email)
+                .map(userMapper::mapEntityToDomain)
                 .filter(x -> Objects.equals(x.getPassword(), passwordEncoder.encode(password)));
-    }
-
-    public int count() {
-        return (int) userPageableCrudDao.count();
     }
 
     public List<User> findAll(Page page) {
@@ -63,8 +58,13 @@ public class UserServiceImpl implements UserService {
         } else if (pageNumber >= maxPageNumber) {
             pageNumber = maxPageNumber;
         }
-        return userPageableCrudDao.findAll(new Page(pageNumber, page.getItemsPerPage())).stream()
-                .map(userMapper::mapUserEntityToUser)
+        return userCrudDao.findAll(new Page(pageNumber, page.getItemsPerPage())).stream()
+                .map(userMapper::mapEntityToDomain)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public int count() {
+        return (int) userCrudDao.count();
     }
 }

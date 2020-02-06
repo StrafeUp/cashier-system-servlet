@@ -22,15 +22,15 @@ public class UserValidator implements Validator {
     }
 
     private void validateEmail(User user) {
-        validateString(EMAIL_PATTERN, user, User::getEmail, new InvalidFieldException("Email"));
+        validateString(EMAIL_PATTERN, user, User::getEmail, new InvalidFieldException("Email is incorrect", "Email"));
     }
 
     private void validatePassword(User user) {
-        validateString(PASSWORD_PATTERN, user, User::getPassword, new InvalidFieldException("Password"));
+        validateString(PASSWORD_PATTERN, user, User::getPassword, new InvalidFieldException("Password is incorrect", "Password"));
     }
 
     private void validateUsername(User user) {
-        validateString(USERNAME_PATTERN, user, User::getUsername, new InvalidFieldException("Username"));
+        validateString(USERNAME_PATTERN, user, User::getUsername, new InvalidFieldException("Username is incorrect", "Username"));
     }
 
     private void validateString(Pattern pattern, User user, Function<User, String> function, InvalidFieldException exception) {

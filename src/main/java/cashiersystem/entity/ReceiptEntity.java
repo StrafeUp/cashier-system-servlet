@@ -1,5 +1,6 @@
 package cashiersystem.entity;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -104,7 +105,8 @@ public class ReceiptEntity {
             this.id = id;
             return this;
         }
-        public Builder withReceiptId(Long receiptId){
+
+        public Builder withReceiptId(Long receiptId) {
             this.receiptId = id;
             return this;
         }
@@ -120,7 +122,7 @@ public class ReceiptEntity {
         }
 
         public Builder withItems(List<ItemEntity> itemEntities) {
-            this.itemEntities = itemEntities;
+            this.itemEntities = new ArrayList<>(itemEntities);
             return this;
         }
     }
