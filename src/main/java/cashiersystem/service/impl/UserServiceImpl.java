@@ -9,6 +9,7 @@ import cashiersystem.service.encoder.PasswordEncoder;
 import cashiersystem.service.exception.EntityAlreadyExistsException;
 import cashiersystem.service.mapper.UserMapper;
 import cashiersystem.service.validator.Validator;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -16,10 +17,11 @@ import java.util.stream.Collectors;
 
 public class UserServiceImpl implements UserService {
 
-    private final UserCrudDao userCrudDao;
-    private final UserMapper userMapper;
-    private final Validator validator;
-    private final PasswordEncoder passwordEncoder;
+    private UserCrudDao userCrudDao;
+    private UserMapper userMapper;
+    private Validator validator;
+    private PasswordEncoder passwordEncoder;
+
     //TODO validation
     public UserServiceImpl(UserCrudDao userCrudDao, UserMapper userMapper, Validator validator, PasswordEncoder passwordEncoder) {
         this.userCrudDao = userCrudDao;

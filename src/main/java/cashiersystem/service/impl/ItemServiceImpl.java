@@ -5,6 +5,7 @@ import cashiersystem.dao.domain.Item;
 import cashiersystem.dao.domain.Page;
 import cashiersystem.entity.ItemEntity;
 import cashiersystem.service.ItemService;
+import cashiersystem.service.exception.EntityNotFoundException;
 import cashiersystem.service.mapper.ItemMapper;
 
 import java.util.List;
@@ -13,10 +14,9 @@ import java.util.stream.Collectors;
 
 public class ItemServiceImpl implements ItemService {
 
-    private final ItemCrudDao itemPageableCrudDao;
-    private final ItemMapper itemMapper;
+    private ItemCrudDao itemPageableCrudDao;
+    private ItemMapper itemMapper;
 
-    //TODO validation
     public ItemServiceImpl(ItemCrudDao itemPageableCrudDao, ItemMapper itemMapper) {
         this.itemPageableCrudDao = itemPageableCrudDao;
         this.itemMapper = itemMapper;
@@ -47,7 +47,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void updateItem(ItemEntity itemEntity) {
-        itemPageableCrudDao.update(itemEntity);
+        Optional<ItemEntity> byId = itemPageableCrudDao.findById((int) itemEntity.getId());
+        if (byId.isPresent()) {
+            itemPageableCrudDao.update(byId.get());
+        } else {
+            throw new EntityNotFoundException(404);
+        }
     }
 
     @Override

@@ -23,6 +23,7 @@ public class ApplicationInjector {
     private static final String DATABASE_PROPERTIES = "database";
 
     private static final ApplicationInjector INSTANCE = new ApplicationInjector();
+
     private static final Validator USER_VALIDATOR = new UserValidator();
     private static final PasswordEncoder PASSWORD_ENCODER = new PasswordEncoder();
     private static final ConnectionPool CONNECTOR_DB = new HikariCPManager(DATABASE_PROPERTIES);

@@ -15,8 +15,8 @@ public class PasswordEncoder {
 
     private static final int ITERATION_COUNT = 65536;
     private static final int KEY_LENGTH = 128;
-    private static final SecureRandom random = new SecureRandom();
     private static final int HASH_SIZE_BYTES = 16;
+    private SecureRandom random = new SecureRandom();
     private byte[] salt = "salt".getBytes();
 
     public String encode(String inputString) {

@@ -37,7 +37,6 @@ public class ListAllUsersCommand implements Command {
         List<User> allUsersAtPage = userService.findAll(new Page(page, ITEMS_PER_PAGE));
         int userCount = userService.count();
         int pageCount = (int) Math.ceil(userCount * 1.0 / ITEMS_PER_PAGE);
-        System.out.println(pageCount);
         List<Integer> pages = IntStream.rangeClosed(1, pageCount).boxed().collect(Collectors.toList());
 
         request.setAttribute("pageCount", pageCount);

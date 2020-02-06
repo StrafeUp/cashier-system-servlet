@@ -25,12 +25,13 @@ public class UserMapperTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private UserMapper mapper;
+    private Mapper<UserEntity, User> mapper = new UserMapper(passwordEncoder);
 
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
     }
+
 
     @Test
     public void mapUserToUserEntity() {
@@ -55,5 +56,4 @@ public class UserMapperTest {
         User user = mapper.mapEntityToDomain(exampleUser);
         assertEquals("test@gmail.com", user.getEmail());
     }
-
 }

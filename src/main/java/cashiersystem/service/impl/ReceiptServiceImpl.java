@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ReceiptServiceImpl implements ReceiptService {
-    private final ReceiptCrudDao receiptCrudDao;
-    private final Mapper<ReceiptEntity, Receipt> receiptMapper;
+    private ReceiptCrudDao receiptCrudDao;
+    private Mapper<ReceiptEntity, Receipt> receiptMapper;
 
     public ReceiptServiceImpl(ReceiptCrudDao receiptCrudDao, Mapper<ReceiptEntity, Receipt> receiptMapper) {
         this.receiptCrudDao = receiptCrudDao;
         this.receiptMapper = receiptMapper;
     }
-    //TODO validation
+
     @Override
     public void saveReceipt(Receipt receipt) {
         receiptCrudDao.save(receiptMapper.mapDomainToEntity(receipt));

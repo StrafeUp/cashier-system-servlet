@@ -6,7 +6,7 @@ import cashiersystem.entity.UserEntity;
 import cashiersystem.service.encoder.PasswordEncoder;
 
 public class UserMapper implements Mapper<UserEntity, User> {
-    private final PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     public UserMapper(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
