@@ -19,8 +19,10 @@ public class LanguageFilter implements Filter {
 
         if (req.getParameter(SESSION_LOCALE_PARAMETER) != null) {
             req.getSession().setAttribute(SESSION_LOCALE_PARAMETER, req.getParameter(SESSION_LOCALE_PARAMETER));
+        } else if (req.getSession(true).getAttribute(SESSION_LOCALE_PARAMETER) != null) {
+            req.getSession().setAttribute(SESSION_LOCALE_PARAMETER, req.getSession().getAttribute(SESSION_LOCALE_PARAMETER));
         } else {
-            req.getSession(true).setAttribute(SESSION_LOCALE_PARAMETER, DEFAULT_LANGUAGE);
+            req.getSession().setAttribute(SESSION_LOCALE_PARAMETER, DEFAULT_LANGUAGE);
         }
         chain.doFilter(req, response);
     }
