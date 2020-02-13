@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class LoginCommand implements Command {
+
     private static final Logger LOGGER = LogManager.getLogger(LoginCommand.class);
     private final UserService userService;
 
@@ -40,18 +41,9 @@ public class LoginCommand implements Command {
             request.getRequestDispatcher("/pages/login.jsp").forward(request, response);
         }
 
-        final HttpSession session = createNewSession(request);
-        System.out.println(user.get());
+        final HttpSession session = request.getSession(false);
         session.setAttribute("user", user.get());
 
         return "/user/listAllUsers";
-    }
-
-    private HttpSession createNewSession(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-        return request.getSession(true);
     }
 }

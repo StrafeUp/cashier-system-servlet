@@ -23,6 +23,7 @@ INSERT INTO roles (id, role) VALUES (1, 'ADMIN');
 INSERT INTO roles (id, role) VALUES (2, 'MERCHANDISER');
 INSERT INTO roles (id, role) VALUES (3, 'MANAGER');
 INSERT INTO roles (id, role) VALUES (4, 'CASHIER');
+INSERT INTO roles (id, role) VALUES (5, 'DEFAULT');
 
 INSERT INTO statuses (id, Status) VALUES (1, 'OPEN');
 INSERT INTO statuses (id, Status) VALUES (2, 'IN_DISPUTE');
@@ -31,11 +32,11 @@ INSERT INTO statuses (id, Status) VALUES (3, 'CLOSED');
 INSERT INTO users (id, username, email, password, role_id) VALUES (1, 'Hello123', 'Hello@gmail.com', 'sagdhlsajb', 2);
 INSERT INTO users (id, username, email, password, role_id) VALUES (3, 'Hell12o123', 'Hello2@gmail.com', 'sagdhlsajb', 2);
 
-INSERT INTO receipts (id, receipt_id, status_id, user_id, item_id) VALUES (1, 1, 3, 1, 3);
-INSERT INTO receipts (id, receipt_id, status_id, user_id, item_id) VALUES (2, 1, 3, 1, 2);
-INSERT INTO receipts (id, receipt_id, status_id, user_id, item_id) VALUES (3, 1, 3, 1, 5);
-INSERT INTO receipts (id, receipt_id, status_id, user_id, item_id) VALUES (4, 1, 3, 1, 10);
-INSERT INTO receipts (id, receipt_id, status_id, user_id, item_id) VALUES (5, 2, 2, 3, 2);
-INSERT INTO receipts (id, receipt_id, status_id, user_id, item_id) VALUES (6, 2, 2, 3, 15);
-INSERT INTO receipts (id, receipt_id, status_id, user_id, item_id) VALUES (7, 3, 1, 1, 20);
+INSERT INTO receipts (id, receipt_id, status_id, user_id, item_id, time_of_receipt) VALUES (1, 1, 3, 1, 3, '2020-02-08 10:16:40');
+INSERT INTO receipts (id, receipt_id, status_id, user_id, item_id, time_of_receipt) VALUES (2, 1, 3, 1, 2, '2020-02-08 10:16:40');
+INSERT INTO receipts (id, receipt_id, status_id, user_id, item_id, time_of_receipt) VALUES (3, 1, 3, 1, 5, '2020-02-08 10:16:40');
+INSERT INTO receipts (id, receipt_id, status_id, user_id, item_id, time_of_receipt) VALUES (4, 1, 3, 1, 10, '2020-02-08 10:16:40');
+INSERT INTO receipts (id, receipt_id, status_id, user_id, item_id, time_of_receipt) VALUES (5, 2, 2, 3, 2, '2020-02-08 12:16:40');
+INSERT INTO receipts (id, receipt_id, status_id, user_id, item_id, time_of_receipt) VALUES (6, 2, 2, 3, 15, '2020-02-08 12:16:40');
+INSERT INTO receipts (id, receipt_id, status_id, user_id, item_id, time_of_receipt) VALUES (7, 3, 1, 1, 20, '2020-02-08 14:16:40');
 

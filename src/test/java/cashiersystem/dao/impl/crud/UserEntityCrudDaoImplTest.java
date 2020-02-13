@@ -20,6 +20,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class UserEntityCrudDaoImplTest extends AbstractEntityCrudDaoImplTest {
+
     private static final String H2_PROPERTIES = "h2db";
 
     @Rule

@@ -4,8 +4,7 @@ import cashiersystem.command.Command;
 import cashiersystem.dao.domain.Page;
 import cashiersystem.dao.domain.User;
 import cashiersystem.service.UserService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import cashiersystem.util.PageUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +13,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ListAllUsersCommand implements Command {
+
     public static final int ITEMS_PER_PAGE = 10;
-    private static final Logger LOGGER = LogManager.getLogger(ListAllUsersCommand.class);
     private final UserService userService;
 
     public ListAllUsersCommand(UserService userService) {
@@ -25,13 +24,10 @@ public class ListAllUsersCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         int page = 1;
+        String pageNumber = request.getParameter("page");
 
-        if (request.getParameter("page") != null) {
-            try {
-                page = Integer.parseInt(request.getParameter("page"));
-            } catch (NumberFormatException e) {
-                LOGGER.warn("Tried to access page with string letters");
-            }
+        if (pageNumber != null) {
+            page = PageUtils.parsePageNumber(pageNumber, 1);
         }
 
         List<User> allUsersAtPage = userService.findAll(new Page(page, ITEMS_PER_PAGE));

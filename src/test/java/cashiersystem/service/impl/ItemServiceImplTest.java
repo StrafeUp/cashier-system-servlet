@@ -4,7 +4,7 @@ import cashiersystem.dao.ItemCrudDao;
 import cashiersystem.dao.domain.Item;
 import cashiersystem.entity.ItemEntity;
 import cashiersystem.service.exception.EntityNotFoundException;
-import cashiersystem.service.mapper.ItemMapper;
+import cashiersystem.service.mapper.Mapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -23,9 +23,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class ItemServiceImplTest {
+
     public static final String ITEM_NAME = "Kumquat";
     private static final Item ITEM = Item.builder()
             .withId(1L)
@@ -33,10 +33,12 @@ public class ItemServiceImplTest {
     private static final ItemEntity ITEM_ENTITY = ItemEntity.builder()
             .withId(1L)
             .build();
+
     @Mock
     private ItemCrudDao itemPageableCrudDao;
     @Mock
-    private ItemMapper itemMapper;
+    private Mapper<ItemEntity, Item> itemMapper;
+
     @InjectMocks
     private ItemServiceImpl itemService;
 
@@ -64,7 +66,7 @@ public class ItemServiceImplTest {
     }
 
     @Test
-    public void addItemShouldProceed(){
+    public void addItemShouldProceed() {
         doNothing().when(itemPageableCrudDao).save(ITEM_ENTITY);
 
         itemService.addItem(ITEM_ENTITY);
@@ -74,7 +76,7 @@ public class ItemServiceImplTest {
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void updateItemShouldThrowEntityNotFoundException(){
+    public void updateItemShouldThrowEntityNotFoundException() {
         when(itemPageableCrudDao.findById(anyInt())).thenReturn(Optional.empty());
         itemService.updateItem(ITEM_ENTITY);
     }

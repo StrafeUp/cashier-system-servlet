@@ -12,6 +12,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -91,6 +93,8 @@ public class ReceiptEntityPageableCrudDaoImplTest extends AbstractEntityCrudDaoI
                         .withWeight(202.3)
                         .withQuantity(80)
                         .build()))
+                .withReceiptId(3L)
+                .withTimeOfReceipt(LocalDateTime.parse("2020-02-08T14:16:40"))
                 .build();
         assertEquals(receiptEntity, byReceiptEntityId);
     }

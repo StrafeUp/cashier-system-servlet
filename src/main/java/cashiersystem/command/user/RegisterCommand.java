@@ -28,10 +28,10 @@ public class RegisterCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final String email = request.getParameter("email");
-        final String password1 = request.getParameter("password1");
-        final String password2 = request.getParameter("password2");
-        final String username = request.getParameter("username");
+        String email = request.getParameter("email");
+        String password1 = request.getParameter("password1");
+        String password2 = request.getParameter("password2");
+        String username = request.getParameter("username");
 
         if(email.isEmpty() || username.isEmpty() || password1.isEmpty() || password2.isEmpty()){
             LOGGER.warn("Field cannot by empty");

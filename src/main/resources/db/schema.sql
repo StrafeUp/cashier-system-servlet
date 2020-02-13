@@ -4,32 +4,30 @@ drop table if exists users;
 drop table if exists roles;
 drop table if exists items;
 
-create table if not exists items
+create table items
 (
-    id       int auto_increment
-        primary key,
+    id       int auto_increment primary key,
     name     varchar(255) not null,
     quantity int          not null,
     weight   double       not null,
-    constraint items_name_uindex
-        unique (name)
+    constraint items_name_uindex unique (name)
 );
 
-create table if not exists roles
+create table roles
 (
     id   int auto_increment
         primary key,
     role varchar(15) null
 );
 
-create table if not exists statuses
+create table statuses
 (
     id     int auto_increment
         primary key,
     Status varchar(15) not null
 );
 
-create table if not exists users
+create table users
 (
     id       int auto_increment
         primary key,
@@ -45,14 +43,14 @@ create table if not exists users
         foreign key (role_id) references roles (id)
 );
 
-create table if not exists receipts
+create table receipts
 (
-    id         int auto_increment
-        primary key,
-    receipt_id int not null,
-    status_id  int not null,
-    user_id    int null,
-    item_id    int not null,
+    id              int auto_increment primary key,
+    receipt_id      int      not null,
+    status_id       int      not null,
+    user_id         int      null,
+    item_id         int      not null,
+    time_of_receipt datetime,
     constraint receipts_items_id_fk
         foreign key (item_id) references items (id),
     constraint receipts_statuses_id_fk

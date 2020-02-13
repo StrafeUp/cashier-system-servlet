@@ -25,13 +25,7 @@ public class UserMapperTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private Mapper<UserEntity, User> mapper = new UserMapper(passwordEncoder);
-
-    @Before
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-    }
-
+    private UserMapper userMapper;
 
     @Test
     public void mapUserToUserEntity() {
@@ -41,7 +35,7 @@ public class UserMapperTest {
                 .withPassword(PASSWORD).build();
 
         when(passwordEncoder.encode(anyString())).thenReturn(ENCODED_PASSWORD);
-        UserEntity userEntity = mapper.mapDomainToEntity(user);
+        UserEntity userEntity = userMapper.mapDomainToEntity(user);
 
         assertEquals(ENCODED_PASSWORD, userEntity.getPassword());
     }
@@ -53,7 +47,7 @@ public class UserMapperTest {
                 .withEmail("test@gmail.com")
                 .withUsername("Example")
                 .withPassword(PASSWORD).build();
-        User user = mapper.mapEntityToDomain(exampleUser);
+        User user = userMapper.mapEntityToDomain(exampleUser);
         assertEquals("test@gmail.com", user.getEmail());
     }
 }
